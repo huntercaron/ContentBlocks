@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
 import Button from '../components/Button'
-
+import 'intersection-observer'
 
 // styled components
 const Container = styled.div`

@@ -28,11 +28,18 @@ exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
     if (!fs.existsSync(staticImagePath)){
       fs.mkdirSync(staticImagePath);
     }
-
     fs.createReadStream(contentPath + node.relativePath).pipe(fs.createWriteStream(staticImagePath + node.base));
   }
 }
 
+exports.modifyWebpackConfig = ({ config, stage }) => {
+  if (stage === "build-html") {
+    config.loader("null", {
+      test: /intersection-observer/,
+      loader: "null-loader"
+    });
+  }
+};
 
 exports.createPages = ({ boundActionCreators, graphql }) => {
  const { createPage } = boundActionCreators;
