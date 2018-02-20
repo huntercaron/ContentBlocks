@@ -144,7 +144,7 @@ export default class IndexPage extends React.Component {
   render() {
     const pages = this.props.data.allMarkdownRemark.edges;
     return (
-      <Container innerRef={el => this.container = el}>
+      <Container>
         <Subtitle>dynamic pages:</Subtitle>
         
         <List>
@@ -153,7 +153,7 @@ export default class IndexPage extends React.Component {
               <TopStickyDetector innerRef={el => this.topDetectors[i] = el}/>
 
               <StickyLayer className="sticky" data-num={i}>
-                {this.state.activeBlock}
+                THIS: {i}, ACTIVE: {this.state.activeBlock}
               </StickyLayer>
 
               <BottomStickyDetector innerRef={el => this.bottomDetectors[i] = el}/>
