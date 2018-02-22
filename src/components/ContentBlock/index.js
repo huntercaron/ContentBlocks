@@ -9,18 +9,18 @@ const topDetectorStyle = {
   position: "absolute",
   left: 0,
   right: 0,
-  border: "2px solid pink",
-  // visibility: "hidden",
-  height: "40px",
-  top: "-40px"
+  // border: "2px solid pink",
+  visibility: "hidden",
+  height: "0px",
+  top: "0px"
 }
 
 const bottomDetectorStyle = {
   position: "absolute",
   left: 0,
   right: 0,
-  border: "2px solid pink",
-  // visibility: "hidden",
+  // border: "2px solid pink",
+  visibility: "hidden",
   height: "80px",
   bottom: 0
 }
@@ -51,15 +51,20 @@ export default class ContentBlock extends React.Component {
         const targetInfo = record.boundingClientRect;
         const rootBoundsInfo = record.rootBounds;
 
+        console.log("HEY");
+        console.log(targetInfo.bottom, rootBoundsInfo.top);
+
+        // Stopped sticking.
+        if (targetInfo.bottom > rootBoundsInfo.top && targetInfo.bottom < rootBoundsInfo.bottom) {
+          this.handleActiveChange(false)
+        }
+
         // Started sticking.
-        if (targetInfo.bottom < rootBoundsInfo.top) {
+        if (targetInfo.bottom <= rootBoundsInfo.top) {
           this.handleActiveChange(true)
         }
 
-        // Stopped sticking.
-        if (targetInfo.bottom >= rootBoundsInfo.top && targetInfo.bottom < rootBoundsInfo.bottom) {
-          this.handleActiveChange(false)
-        }
+
       }
     }, { threshold: [1], root: null });
 

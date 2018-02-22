@@ -31,39 +31,12 @@ import NeueHaasGrotDispItalic_woff2 from "../assets/fonts/NeueHaasGrotDisp-56Ita
 
 // styled components
 const Container = styled.div`
-  margin: 4rem;
   height: 100%;
 `
 
 const InnerContainer = styled.div`
-  height: 100%:
+  height: 100%;
 `
-
-const TitleLink = styled(Link)`
-  color: black;
-  text-decoration: none;
-  text-transform: uppercase;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
-const HeaderContainer = styled.div`
-
-`
-
-
-// components
-function Header () {
-  return (
-    <HeaderContainer>
-      <TitleLink to="/">
-          <h1>Boiled</h1>
-      </TitleLink>
-    </HeaderContainer>
-  )
-}
 
 
 // page component
@@ -76,15 +49,8 @@ const TemplateWrapper = ({ children }) => (
         { name: 'keywords', content: 'sample, something' },
       ]}
     />
-
-    <Header />
-
-    {/*
-      Children() is where your page content is inserted.
-    */}
-    <InnerContainer>
-      {children()}
-    </InnerContainer>
+    
+    {children()}
 
   </Container>
 )
