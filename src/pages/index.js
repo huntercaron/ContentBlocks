@@ -47,6 +47,7 @@ const StickyLayer = styled.div`
   h4 {
     text-align: center;
     width: 100%;
+    padding: 10px;
   }
 `;
 
@@ -55,6 +56,11 @@ const Circle = styled.div`
   width: 50px;
   background-color: black;
   position: absolute;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 
   ${props => props.left && "left: 10px;"}
   ${props => props.right && "right: 10px;"}
@@ -90,10 +96,10 @@ export default class IndexPage extends React.Component {
               <StickyWrapper>
                 <StickyLayer>
                   <h4>THIS: {i}, ACTIVE: {this.state.activeBlock}</h4>
-                  <Circle top left />
-                  <Circle top right />
-                  <Circle bottom left />
-                  <Circle bottom right />
+                  <Circle top left> {i}</Circle>
+                  <Circle top right> {i}</Circle>
+                  <Circle bottom left> {i}</Circle>
+                  <Circle bottom right> {i}</Circle>
                 </StickyLayer>
               </StickyWrapper>
 

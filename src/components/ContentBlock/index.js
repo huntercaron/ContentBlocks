@@ -51,9 +51,6 @@ export default class ContentBlock extends React.Component {
         const targetInfo = record.boundingClientRect;
         const rootBoundsInfo = record.rootBounds;
 
-        console.log("HEY");
-        console.log(targetInfo.bottom, rootBoundsInfo.top);
-
         // Stopped sticking.
         if (targetInfo.bottom > rootBoundsInfo.top && targetInfo.bottom < rootBoundsInfo.bottom) {
           this.handleActiveChange(false)
