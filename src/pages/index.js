@@ -54,6 +54,25 @@ function ContentBlock(props) {
   )
 }
 
+function createObserver() {
+
+}
+
+function withContentBlockEvents(WrapperComponent) {
+  return class extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = { active: false, index: 0 || props.index };
+    }
+
+    observeHeader = () => {};
+
+    observeFooter = () => {};
+
+    componentDidMount() {}
+  };
+}
 
 // page component
 export default class IndexPage extends React.Component {
