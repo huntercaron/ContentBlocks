@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
-import ContentBlock from '../components/ContentBlockNormal'
+import ContentBlock from '../components/ContentBlock'
 
 // styled components
 const Container = styled.div`
@@ -22,7 +22,7 @@ const BlockContainer = styled(ContentBlock)`
 `
 
 const StickyLayer = styled.div`
-  height: 80px;
+  height: 100px;
   border: 1px solid blue;
   top: 0;
   position: sticky;
