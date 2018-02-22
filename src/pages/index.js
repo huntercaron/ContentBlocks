@@ -20,11 +20,21 @@ const BlockContainer = styled(ContentBlock)`
   min-height: 200vh;
   border: 1px solid red;
 
+  p:first-of-type {
+    margin-top: 100px;
+  }
+
   p {
     margin: auto;
     max-width: 90%;
     margin-bottom: 2rem;
   }
+`
+
+const StickyWrapper = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
 `
 
 const StickyLayer = styled.div`
@@ -77,14 +87,15 @@ export default class IndexPage extends React.Component {
           {pages.map( ({ node: page }, i) => (
             <BlockContainer key={page.id} index={i} handleActiveChange={this.handleActiveChange}>
 
-              <StickyLayer>
-                <h4>THIS: {i}, ACTIVE: {this.state.activeBlock}</h4>
-                <Circle top left />
-                <Circle top right />
-                <Circle bottom left />
-                <Circle bottom right/>
-                
-              </StickyLayer>
+              <StickyWrapper>
+                <StickyLayer>
+                  <h4>THIS: {i}, ACTIVE: {this.state.activeBlock}</h4>
+                  <Circle top left />
+                  <Circle top right />
+                  <Circle bottom left />
+                  <Circle bottom right />
+                </StickyLayer>
+              </StickyWrapper>
 
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel mauris varius, euismod sem nec, dapibus enim. Donec feugiat interdum dapibus. Nulla sit amet gravida purus. Fusce efficitur massa enim, nec accumsan quam semper et. Curabitur rutrum orci eu purus mattis, et rhoncus arcu efficitur. Vivamus dapibus, neque id lacinia tincidunt, augue libero varius tellus, ut dignissim nisi magna vel lorem. Duis vulputate sodales velit nec eleifend. Mauris porttitor lectus et orci convallis, at molestie lectus pretium. Praesent nec erat enim. Morbi nec auctor ante.</p>
 
