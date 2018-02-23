@@ -25,6 +25,8 @@ const BlockContainer = styled(ContentBlock)`
   }
 
   p {
+      transition: all 250ms ease-in-out;
+  opacity: ${props => props.active ? "1" : "0"};
     margin: auto;
     max-width: 90%;
     margin-bottom: 2rem;
@@ -43,6 +45,7 @@ const StickyLayer = styled.div`
   top: 0;
   position: sticky;
   pointer-events: none;
+
 
   h4 {
     text-align: center;
@@ -91,10 +94,15 @@ export default class IndexPage extends React.Component {
       <Container>
         <List>
           {pages.map( ({ node: page }, i) => (
-            <BlockContainer key={page.id} index={i} handleActiveChange={this.handleActiveChange}>
+            <BlockContainer 
+              key={page.id}
+              index={i} 
+              handleActiveChange={this.handleActiveChange} 
+              active={(this.state.activeBlock === i)}
+            >
 
               <StickyWrapper>
-                <StickyLayer>
+                <StickyLayer active={(this.state.activeBlock === i)}>
                   <h4>THIS: {i}, ACTIVE: {this.state.activeBlock}</h4>
                   <Circle top left> {i}</Circle>
                   <Circle top right> {i}</Circle>
