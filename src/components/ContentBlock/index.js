@@ -61,7 +61,6 @@ export default class ContentBlock extends React.Component {
           this.handleActiveChange(true)
         }
 
-
       }
     }, { threshold: [1], root: null });
 

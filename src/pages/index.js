@@ -4,8 +4,11 @@ import styled from 'styled-components'
 import ContentBlock from '../components/ContentBlock'
 
 // styled components
-const Container = styled.div`
-
+const Intro = styled.div`
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const Subtitle = styled.div`
@@ -94,12 +97,16 @@ export default class IndexPage extends React.Component {
     const pages = this.props.data.allMarkdownRemark.edges;
 
     return (
-      <Container>
+      <React.Fragment>
+        <Intro>
+          <p>Hey there, these are content blocks.</p>
+        </Intro>
+
         <List>
           {pages.map( ({ node: page }, i) => {
             const active = (this.state.activeBlock === i);
             
-            return ( 
+            return (
               <BlockContainer 
                 key={page.id}
                 index={i} 
@@ -131,7 +138,7 @@ export default class IndexPage extends React.Component {
             )})}
         </List>
 
-      </Container>
+      </React.Fragment>
     )
   }
 }
