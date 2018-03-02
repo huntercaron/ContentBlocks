@@ -31,18 +31,27 @@ export default class ContentBlock extends React.Component {
 
     this.state = {
       active: false,
-      index: 0 || props.index
+      index: 0 || props.index,
+      direction: "FORWARD"
     };
   }
 
-  handleActiveChange = (active) => {
+  handleActiveChange = (active, location) => {
+    if (active && active != this.state.active) {
+      const direction = (location === "HEADER") ? "FORWARDS" : "BACKWARDS";
+
+      this.setState({
+        direction
+      })
+    }
+
     this.setState({
       active
     })
 
     if (active) { 
-      this.props.handleActiveChange(this.state.index) 
-    }   
+      this.props.handleActiveChange(this.state) 
+    }
   }
 
   observeHeader = () => {
@@ -53,12 +62,12 @@ export default class ContentBlock extends React.Component {
 
         // Stopped sticking.
         if (targetInfo.bottom > rootBoundsInfo.top && targetInfo.bottom < rootBoundsInfo.bottom) {
-          this.handleActiveChange(false)
+          this.handleActiveChange(false, "HEADER")
         }
 
         // Started sticking.
         if (targetInfo.bottom <= rootBoundsInfo.top) {
-          this.handleActiveChange(true)
+          this.handleActiveChange(true, "HEADER")
         }
 
       }
@@ -76,12 +85,12 @@ export default class ContentBlock extends React.Component {
 
         // Started sticking.
         if (targetInfo.bottom > rootBoundsInfo.top && ratio === 1) {
-          this.handleActiveChange(true)
+          this.handleActiveChange(true, "FOOTER")
         }
 
         // Stopped sticking.
         if (targetInfo.top < rootBoundsInfo.top && targetInfo.bottom < rootBoundsInfo.bottom) {
-          this.handleActiveChange(false)
+          this.handleActiveChange(false, "FOOTER")
         }
       }
     }, { threshold: [1], root: null });

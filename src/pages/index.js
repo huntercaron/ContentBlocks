@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import ContentBlock from '../components/ContentBlock'
 
 // styled components
@@ -10,6 +10,10 @@ const Intro = styled.div`
   justify-content: center;
   align-items: center;
 `
+
+const BlockContent = styled.div`
+  margin-top: 200px;
+`;
 
 const Subtitle = styled.div`
   text-align: left;
@@ -23,13 +27,9 @@ const BlockContainer = styled(ContentBlock)`
   min-height: 200vh;
   border: 1px solid black;
 
-  p:first-of-type {
-    margin-top: 100px;
-  }
-
   p {
-    transition: all 250ms ease-in-out;
-    opacity: ${props => props.active ? "1" : "0"};
+    transition: all 100ms ease-in-out;
+    opacity: ${props => props.theme.active ? "1" : "0"};
     margin: auto;
     max-width: 90%;
     margin-bottom: 2rem;
@@ -38,6 +38,7 @@ const BlockContainer = styled(ContentBlock)`
 
 const StickyWrapper = styled.div`
   position: absolute;
+  top: 0;
   height: 100%;
   width: 100%;
 `
@@ -59,9 +60,9 @@ const StickyLayer = styled.div`
 const Circle = styled.div`
   height: 50px;
   width: 50px;
-  background-color: black;
-  position: absolute;
   color: white;
+  position: absolute;
+  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +70,7 @@ const Circle = styled.div`
   transition: all 250ms ease-out;
 
   transform-origin: center center;
-  transform: ${props => props.active ? "scale(1)" : "scale(0.2)"};
+  transform: ${props => props.theme.active ? "scale(1)" : "scale(0.2)"};
 
   ${props => props.left && "left: 10px;"}
   ${props => props.right && "right: 10px;"}
@@ -83,13 +84,15 @@ export default class IndexPage extends React.Component {
     super(props);
 
     this.state = {
-      activeBlock: 0
+      activeBlock: 0,
+      direction: "FORWARDS"
     }
   }
 
-  handleActiveChange = (index) => {
+  handleActiveChange = (activeBlockState) => {
     this.setState({
-      activeBlock: index
+      activeBlock: activeBlockState.index,
+      direction: activeBlockState.direction
     })
   }
 
@@ -107,34 +110,33 @@ export default class IndexPage extends React.Component {
             const active = (this.state.activeBlock === i);
             
             return (
-              <BlockContainer 
-                key={page.id}
-                index={i} 
-                handleActiveChange={this.handleActiveChange} 
-                active={active}
-              >
+              <ThemeProvider key={page.id} theme={{ active: (this.state.activeBlock === i), direction: this.state.direction }}>
+                <BlockContainer index={i} handleActiveChange={this.handleActiveChange}>
 
-                <StickyWrapper>
-                  <StickyLayer active={active}>
-                    <h4>THIS: {i}, ACTIVE: {this.state.activeBlock}</h4>
-                    <Circle top left active={active}> {i}</Circle>
-                    <Circle top right active={active}> {i}</Circle>
-                    <Circle bottom left active={active}> {i}</Circle>
-                    <Circle bottom right active={active}> {i}</Circle>
-                  </StickyLayer>
-                </StickyWrapper>
+                  <BlockContent>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel mauris varius, euismod sem nec, dapibus enim. Donec feugiat interdum dapibus. Nulla sit amet gravida purus. Fusce efficitur massa enim, nec accumsan quam semper et. Curabitur rutrum orci eu purus mattis, et rhoncus arcu efficitur. Vivamus dapibus, neque id lacinia tincidunt, augue libero varius tellus, ut dignissim nisi magna vel lorem. Duis vulputate sodales velit nec eleifend. Mauris porttitor lectus et orci convallis, at molestie lectus pretium. Praesent nec erat enim. Morbi nec auctor ante.</p>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel mauris varius, euismod sem nec, dapibus enim. Donec feugiat interdum dapibus. Nulla sit amet gravida purus. Fusce efficitur massa enim, nec accumsan quam semper et. Curabitur rutrum orci eu purus mattis, et rhoncus arcu efficitur. Vivamus dapibus, neque id lacinia tincidunt, augue libero varius tellus, ut dignissim nisi magna vel lorem. Duis vulputate sodales velit nec eleifend. Mauris porttitor lectus et orci convallis, at molestie lectus pretium. Praesent nec erat enim. Morbi nec auctor ante.</p>
+                    <p>Nullam sit amet vestibulum diam, id dapibus velit. Donec faucibus viverra urna id faucibus. Donec id facilisis mauris, in suscipit nibh. Mauris eget interdum diam, ut consequat lectus. Nunc pretium ut leo eget lacinia. Sed laoreet arcu eget bibendum finibus. Etiam auctor interdum dignissim. Ut non nunc vitae velit malesuada tincidunt non ac massa. Duis bibendum pulvinar lectus at lacinia. Vivamus maximus maximus ligula a pellentesque. Nam non viverra neque, vitae euismod dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
 
-                <p>Nullam sit amet vestibulum diam, id dapibus velit. Donec faucibus viverra urna id faucibus. Donec id facilisis mauris, in suscipit nibh. Mauris eget interdum diam, ut consequat lectus. Nunc pretium ut leo eget lacinia. Sed laoreet arcu eget bibendum finibus. Etiam auctor interdum dignissim. Ut non nunc vitae velit malesuada tincidunt non ac massa. Duis bibendum pulvinar lectus at lacinia. Vivamus maximus maximus ligula a pellentesque. Nam non viverra neque, vitae euismod dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                    <p>In tempus tortor sit amet nisl sollicitudin, eget dignissim nisi molestie. Sed lectus sapien, volutpat at dictum in, malesuada vitae quam. Nulla vehicula ullamcorper mi, non congue magna consequat sed. Mauris eleifend velit eu elit lobortis tempor. Morbi id tincidunt leo. Etiam quis odio ultrices est suscipit ornare. Duis et interdum felis. Vestibulum eros lorem, accumsan eget lacinia a, tristique eget justo. Fusce iaculis eu nulla a placerat. Nulla consectetur sed nibh et consectetur. Maecenas convallis pulvinar elit, a mollis magna rutrum nec. Proin erat tellus, scelerisque eget efficitur non, efficitur ac diam. Aenean blandit sodales libero ut feugiat.</p>
 
-                <p>In tempus tortor sit amet nisl sollicitudin, eget dignissim nisi molestie. Sed lectus sapien, volutpat at dictum in, malesuada vitae quam. Nulla vehicula ullamcorper mi, non congue magna consequat sed. Mauris eleifend velit eu elit lobortis tempor. Morbi id tincidunt leo. Etiam quis odio ultrices est suscipit ornare. Duis et interdum felis. Vestibulum eros lorem, accumsan eget lacinia a, tristique eget justo. Fusce iaculis eu nulla a placerat. Nulla consectetur sed nibh et consectetur. Maecenas convallis pulvinar elit, a mollis magna rutrum nec. Proin erat tellus, scelerisque eget efficitur non, efficitur ac diam. Aenean blandit sodales libero ut feugiat.</p>
+                    <p>Suspendisse vulputate eros ultricies imperdiet pharetra. Nulla eget augue id nisl porta semper non quis lorem. Ut consectetur auctor lectus sit amet viverra. Mauris facilisis auctor ornare. Fusce vel arcu lectus. Mauris risus massa, consectetur in dolor ut, dignissim malesuada velit. Ut ornare, eros id euismod dapibus, lacus libero fringilla eros, ac euismod erat lectus eget elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi at bibendum sapien. Cras ut nulla bibendum, varius massa sed, pellentesque quam. Integer sollicitudin aliquet purus non blandit. Donec sodales urna quam.</p>
 
-                <p>Suspendisse vulputate eros ultricies imperdiet pharetra. Nulla eget augue id nisl porta semper non quis lorem. Ut consectetur auctor lectus sit amet viverra. Mauris facilisis auctor ornare. Fusce vel arcu lectus. Mauris risus massa, consectetur in dolor ut, dignissim malesuada velit. Ut ornare, eros id euismod dapibus, lacus libero fringilla eros, ac euismod erat lectus eget elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi at bibendum sapien. Cras ut nulla bibendum, varius massa sed, pellentesque quam. Integer sollicitudin aliquet purus non blandit. Donec sodales urna quam.</p>
+                    <p>Praesent et faucibus magna. Fusce venenatis eros eget nisi faucibus vehicula. Duis non lobortis diam, sed euismod libero. Morbi id felis eget mauris tincidunt consequat. Curabitur finibus scelerisque posuere. Curabitur aliquet, tortor vel tempus porta, magna libero ullamcorper lacus, eget euismod magna elit ac metus. Ut tempor sollicitudin efficitur. Morbi vitae dolor ut nulla mollis dictum. Curabitur ac massa in mi finibus hendrerit ac eget orci. Cras non augue id orci bibendum pharetra sed vitae sem. Mauris et cursus odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris vitae urna dapibus, dignissim orci at, maximus turpis. Suspendisse egestas velit lacinia pellentesque vestibulum. </p>
+                  </BlockContent>
 
-                <p>Praesent et faucibus magna. Fusce venenatis eros eget nisi faucibus vehicula. Duis non lobortis diam, sed euismod libero. Morbi id felis eget mauris tincidunt consequat. Curabitur finibus scelerisque posuere. Curabitur aliquet, tortor vel tempus porta, magna libero ullamcorper lacus, eget euismod magna elit ac metus. Ut tempor sollicitudin efficitur. Morbi vitae dolor ut nulla mollis dictum. Curabitur ac massa in mi finibus hendrerit ac eget orci. Cras non augue id orci bibendum pharetra sed vitae sem. Mauris et cursus odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris vitae urna dapibus, dignissim orci at, maximus turpis. Suspendisse egestas velit lacinia pellentesque vestibulum. </p>
+                  <StickyWrapper>
+                    <StickyLayer>
+                      <h4>THIS: {i}, ACTIVE: {this.state.activeBlock}, DIRECTION: {this.state.direction}</h4>
+                      <Circle top left> {i}</Circle>
+                      <Circle top right> {i}</Circle>
+                      <Circle bottom left> {i}</Circle>
+                      <Circle bottom right> {i}</Circle>
+                    </StickyLayer>
+                  </StickyWrapper>
 
-              </BlockContainer>
+                </BlockContainer>
+              </ThemeProvider>
             )})}
         </List>
 
