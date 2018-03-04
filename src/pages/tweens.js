@@ -46,13 +46,18 @@ export default class App extends React.Component {
     progress: 0
   }
 
+  setupAnimation = () => {
+    this.tl = new TimelineMax();
+    this.tl.to(this.square, 0.5, { rotation: 180, scale: 2, ease: Power1.easeInOut });
+
+    this.animDuration = this.tl.totalDuration();
+  }
+
 
   animateSquare = () => {
-    TweenMax.to(this.square, 0.4, {
-      rotation: this.state.progress*2,
-      //ease: Elastic.easeOut.config(1, 0.3)
-      ease: Power4.easeOut
-    });
+    this.tl.tweenTo(this.animDuration/100 * this.state.progress)
+    
+    
   }
 
   addObservers = () => {
@@ -73,6 +78,7 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
+    this.setupAnimation();
     this.addObservers();
   }
 
