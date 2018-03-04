@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import styled, { injectGlobal } from "styled-components";
 import { TimelineMax, TweenLite } from 'gsap';
+import 'intersection-observer'
 
 const Container = styled.div`
 	height: 300vh;
