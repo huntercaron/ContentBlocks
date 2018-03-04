@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import styled, { injectGlobal } from "styled-components";
+import { TimelineMax, TweenLite } from 'gsap';
 
 const Container = styled.div`
 	height: 300vh;
@@ -9,7 +10,7 @@ const Container = styled.div`
 `;
 
 const ScrollSentinel = styled.div`
-	height: 50vh;
+	height: 80vh;
 	position: absolute;
 	width: 10px;
   margin-left: 50%;
@@ -41,14 +42,23 @@ function buildThresholdList(numSteps) {
 }
 
 export default class App extends React.Component {
-  animateSquare = () => {
+  state = {
+    progress: 0
+  }
 
+
+  animateSquare = () => {
+    TweenMax.to(this.square, 0.4, {
+      rotation: this.state.progress*2,
+      //ease: Elastic.easeOut.config(1, 0.3)
+      ease: Power4.easeOut
+    });
   }
 
   addObservers = () => {
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          let progress = Math.floor(entry.intersectionRatio * 100);
+          let progress = 100-Math.floor(entry.intersectionRatio * 100);
           this.setState({
             progress
           });
