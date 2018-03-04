@@ -3734,7 +3734,7 @@ gatsby-plugin-react-next@^1.0.9:
     react "^16.0.0"
     react-dom "^16.0.0"
 
-gatsby-plugin-sharp@^1.6.28, gatsby-plugin-sharp@^1.6.37:
+gatsby-plugin-sharp@^1.6.37:
   version "1.6.37"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-sharp/-/gatsby-plugin-sharp-1.6.37.tgz#26801f6a7075508b10aaf1a016acf74b7be20aa2"
   dependencies:
@@ -3849,15 +3849,6 @@ gatsby-transformer-remark@^1.7.32:
     unist-util-remove-position "^1.1.1"
     unist-util-select "^1.5.0"
     unist-util-visit "^1.1.1"
-
-gatsby-transformer-sharp@^1.6.19:
-  version "1.6.22"
-  resolved "https://registry.yarnpkg.com/gatsby-transformer-sharp/-/gatsby-transformer-sharp-1.6.22.tgz#120baf195dcf60f452604c84df02d09362ded423"
-  dependencies:
-    babel-runtime "^6.26.0"
-    bluebird "^3.5.0"
-    fs-extra "^4.0.2"
-    probe-image-size "^3.2.0"
 
 gatsby@^1.9.194:
   version "1.9.222"
@@ -4276,6 +4267,10 @@ gray-matter@^3.0.0, gray-matter@^3.0.6:
     js-yaml "^3.10.0"
     kind-of "^5.0.2"
     strip-bom-string "^1.0.0"
+
+gsap@^1.20.4:
+  version "1.20.4"
+  resolved "https://registry.yarnpkg.com/gsap/-/gsap-1.20.4.tgz#005fba2a7bfbb3b9d27bd77e1634d2bad365a86a"
 
 gulp-decompress@^1.2.0:
   version "1.2.0"
@@ -6471,7 +6466,7 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-netlify-cms@1.1.0, netlify-cms@^1.0.1:
+netlify-cms@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/netlify-cms/-/netlify-cms-1.1.0.tgz#20d94bfa4768efea39ccb4316e6f57669320327f"
   dependencies:
