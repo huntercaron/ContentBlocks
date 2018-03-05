@@ -52,7 +52,7 @@ export default class App extends React.Component {
 
   setupAnimation = () => {
     this.tl = new TimelineMax();
-    this.tl.to(this.square, 0.5, { rotation: 180, scale: 2, ease: Power1.easeInOut });
+    this.tl.to(this.square, 0.5, { rotation: 180, scale: 2, ease: Power1.easeOut });
 
     this.animDuration = this.tl.totalDuration();
   }
@@ -60,9 +60,9 @@ export default class App extends React.Component {
 
   animateSquare = () => {
     let percent = this.animDuration / 100 * this.state.progress;
-    let progressDiff = (Math.abs(this.state.progress - this.lastProgress)+1)*0.01;
+    let progressDiff = Math.abs(this.state.progress - this.lastProgress)*0.01;
 
-    this.tl.tweenTo(percent).duration(0.25+0.5*progressDiff);
+    this.tl.tweenTo(percent).duration(0.15+0.25*progressDiff);
     this.lastProgress = this.state.progress;    
   }
 
