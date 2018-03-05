@@ -47,6 +47,8 @@ export default class App extends React.Component {
     progress: 0
   }
 
+  lastProgress = 0;
+
   setupAnimation = () => {
     this.tl = new TimelineMax();
     this.tl.to(this.square, 0.5, { rotation: 180, scale: 2, ease: Power1.easeInOut });
@@ -56,9 +58,11 @@ export default class App extends React.Component {
 
 
   animateSquare = () => {
-    this.tl.tweenTo(this.animDuration/100 * this.state.progress)
-    
-    
+    let percent = this.animDuration / 100 * this.state.progress;
+    let progressDiff = (Math.abs(this.state.progress - this.lastProgress)+1)*0.01;
+
+    this.tl.tweenTo(percent).duration(0.25+progressDiff);
+    this.lastProgress = this.state.progress;    
   }
 
   addObservers = () => {
@@ -72,7 +76,7 @@ export default class App extends React.Component {
           requestAnimationFrame(this.animateSquare);
         });
       },
-      { threshold: buildThresholdList(100), rootMargin: 0 + "px", root: null }
+      { threshold: buildThresholdList(20), rootMargin: 0 + "px", root: null }
     );
 
     observer.observe(this.scrollSentinel);
