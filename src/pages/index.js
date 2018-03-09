@@ -11,10 +11,6 @@ const Intro = styled.div`
   align-items: center;
 `
 
-const BlockContent = styled.div`
-  margin-top: 200px;
-`;
-
 const Subtitle = styled.div`
   text-align: left;
 `
@@ -35,6 +31,10 @@ const BlockContainer = styled(ContentBlock)`
     margin-bottom: 2rem;
   }
 `
+
+const BlockContent = styled.div`
+  margin-top: 200px;
+`;
 
 const StickyWrapper = styled.div`
   position: absolute;

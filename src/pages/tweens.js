@@ -1,18 +1,29 @@
 import React from "react";
 import { render } from "react-dom";
-import styled, { injectGlobal } from "styled-components";
+import styled, { injectGlobal, ThemeProvider } from "styled-components";
 import { TimelineMax, TweenLite } from 'gsap';
 import 'intersection-observer'
 
+import ContentBlock from '../components/ContentBlock'
+
 const Container = styled.div`
-	height: 300vh;
+	height: 500vh;
 	width: 100%;
 	background-color: pink;
+
+  h1 {
+    position: fixed;
+  }
+`;
+
+const Header = styled.div`
+  height: 80vh;
+  width: 100%;
 `;
 
 const ScrollSentinel = styled.div`
-	height: 80vh;
-	position: absolute;
+	height: calc(100% - 100vh);
+  margin-top: 100vh;
 	width: 10px;
   margin-left: 50%;
 	border: 1px solid blue;
@@ -22,7 +33,6 @@ const Square = styled.div`
   background-color: black;
   height: 200px;
   width: 200px;
-  position: sticky;
   top: calc(50% - 100px);
   left: calc(50% - 100px);
   display: flex;
@@ -31,13 +41,57 @@ const Square = styled.div`
   color: white;
 `
 
+
+const BlockContainer = styled(ContentBlock) `
+  position: relative;
+  height: 200vh;
+  border: 1px solid black;
+
+  p {
+    transition: all 100ms ease-in-out;
+    opacity: ${props => props.theme.active ? "1" : "0"};
+    margin: auto;
+    max-width: 90%;
+    margin-bottom: 2rem;
+  }
+`
+
+const BlockContent = styled.div`
+  margin-top: 200px;
+`;
+
+const StickyWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+`
+
+const StickyLayer = styled.div`
+  height: 100vh;
+  top: 0;
+  position: sticky;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h4 {
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+  }
+`;
+
+
 function buildThresholdList(numSteps) {
-  var thresholds = [];
+  var thresholds = [0.0];
 
   for (var i = 1.0; i <= numSteps; i++) {
     var ratio = i / numSteps;
     thresholds.push(ratio);
   }
+  thresholds.push(1.0);
 
   return thresholds;
 }
@@ -69,10 +123,12 @@ export default class App extends React.Component {
   addObservers = () => {
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          let progress = 100-Math.floor(entry.intersectionRatio * 100);
+          let progress = Math.floor(entry.intersectionRatio * 100);
           this.setState({
             progress
           });
+
+
 
           requestAnimationFrame(this.animateSquare);
         });
@@ -88,13 +144,31 @@ export default class App extends React.Component {
     this.addObservers();
   }
 
+  handleActiveChange = (activeBlockState) => {
+    this.setState({
+      activeBlock: activeBlockState.index
+    })
+  }
+
   render() {
     return (
       <Container>
-        <ScrollSentinel innerRef={el => this.scrollSentinel = el} />
-        <Square innerRef={el => this.square = el}>
-          {this.state.progress}
-        </Square>
+        <Header/>        
+
+        <BlockContainer index={0} handleActiveChange={this.handleActiveChange}>
+          <StickyWrapper>
+            <StickyLayer>
+              <Square innerRef={el => this.square = el}>
+                {this.state.progress}
+              </Square>
+            </StickyLayer>
+          </StickyWrapper>
+
+          <ScrollSentinel innerRef={el => this.scrollSentinel = el} />
+        </BlockContainer>
+
+        
+
         <h1>Hey</h1>
       </Container>
     );
