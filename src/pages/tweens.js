@@ -19,11 +19,20 @@ const Container = styled.div`
 const Header = styled.div`
   height: 80vh;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
+// transition-size (vh)
+
+// start-offset (+ margin-top) if it starts on page
+
 const ScrollSentinel = styled.div`
-	height: calc(100% - 100vh);
-  margin-top: 100vh;
+	height: 50vh;
+  margin-top: 50vh;
+  position: sticky;
+  top: 0;
 	width: 10px;
   margin-left: 50%;
 	border: 1px solid blue;
@@ -124,13 +133,14 @@ export default class App extends React.Component {
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           let progress = Math.floor(entry.intersectionRatio * 100);
-          this.setState({
-            progress
-          });
 
+          if (progress !== this.state.progress) {
+            this.setState({
+              progress
+            });
 
-
-          requestAnimationFrame(this.animateSquare);
+            requestAnimationFrame(this.animateSquare);
+          }
         });
       },
       { threshold: buildThresholdList(20), rootMargin: 0 + "px", root: null }
@@ -153,7 +163,9 @@ export default class App extends React.Component {
   render() {
     return (
       <Container>
-        <Header/>        
+        <Header>
+          <h3>Making some stuff with css sticky &amp; intersection observer</h3>
+        </Header>        
 
         <BlockContainer index={0} handleActiveChange={this.handleActiveChange}>
           <StickyWrapper>
