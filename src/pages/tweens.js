@@ -21,12 +21,13 @@ const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 2rem;
 `;
 
 const SquareElement = styled.div`
   background-color: black;
-  height: 200px;
-  width: 200px;
+  height: 30vmin;
+  width: 30vmin;
   top: calc(50% - 100px);
   left: calc(50% - 100px);
   display: flex;
