@@ -38,7 +38,7 @@ const SquareElement = styled.div`
 
 const BlockContainer = styled(ContentBlock) `
   position: relative;
-  height: 300vh;
+  height: 200vh;
   border: 1px solid black;
 
   p {
@@ -85,12 +85,11 @@ class Square extends React.PureComponent {
   lastProgress = 0;
 
   setupAnimation = () => {
-    // TweenLite.set(this.square, { rotation: 0, scale: 1 });
+    TweenLite.set(this.square, { rotation: 0, scale: 1, x: -window.innerWidth/2});
 
-    this.tl = new TimelineMax();
-    this.tl.to(this.square, 0.5, { rotation: 180, scale: 2, ease: Power1.easeOut });
+    this.tl = new TimelineMax({ paused: true });
+    this.tl.to(this.square, 0.5, { x: 0, rotation: 180, scale: 2, ease: Power1.easeOut });
 
-    this.tl.time(0);
 
     this.animDuration = this.tl.totalDuration();
   }
@@ -137,8 +136,6 @@ class Block extends React.PureComponent {
       progress
     })
   }
-
-
 
   render() {
     return(
