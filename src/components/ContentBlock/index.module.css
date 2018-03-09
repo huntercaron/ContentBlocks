@@ -1,0 +1,33 @@
+.container {
+  position: relative
+}
+
+.topDetector {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* border: 2px solid pink; */
+  visibility: hidden;
+  height: 0px;
+  top: 0px;
+}
+
+.bottomDetector {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* border: 2px solid pink; */
+  visibility: hidden;
+  height: 80px;
+  bottom: 0
+}
+
+.scrollSentinel {
+  height: 50vh;
+  margin-top: 50vh;
+  position: sticky;
+  top: 0;
+  width: 10px;
+  visibility: hidden;
+  /* border: 2px solid blue */
+}

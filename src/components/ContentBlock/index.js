@@ -1,38 +1,29 @@
 import React from 'react'
 import 'intersection-observer'
+import styles from "./index.module.css";
 
-const containerStyle = {
-  position: "relative"
+
+function buildThresholdList(numSteps) {
+  var thresholds = [0.0];
+
+  for (var i = 1.0; i <= numSteps; i++) {
+    var ratio = i / numSteps;
+    thresholds.push(ratio);
+  }
+  thresholds.push(1.0);
+
+  return thresholds;
 }
 
-const topDetectorStyle = {
-  position: "absolute",
-  left: 0,
-  right: 0,
-  // border: "2px solid pink",
-  visibility: "hidden",
-  height: "0px",
-  top: "0px"
-}
-
-const bottomDetectorStyle = {
-  position: "absolute",
-  left: 0,
-  right: 0,
-  // border: "2px solid pink",
-  visibility: "hidden",
-  height: "80px",
-  bottom: 0
-}
-
-export default class ContentBlock extends React.Component {
+export default class ContentBlock extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       active: false,
       index: 0 || props.index,
-      direction: "FORWARD"
+      direction: "FORWARD",
+      progress: 0
     };
   }
 
@@ -52,6 +43,14 @@ export default class ContentBlock extends React.Component {
     if (active) { 
       this.props.handleActiveChange(this.state) 
     }
+  }
+
+  handleProgressChange = (progress, index) => {
+    this.setState({
+      progress
+    });
+
+    this.props.handleProgressChange(progress);
   }
 
   observeHeader = () => {
@@ -98,19 +97,41 @@ export default class ContentBlock extends React.Component {
     observer.observe(this.bottomDetector);
   };
 
+  observeProgress = () => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        let progress = Math.floor(entry.intersectionRatio * 100);
+
+        if (progress !== this.state.progress) {
+          this.handleProgressChange(progress);
+        }
+      });
+    }, { threshold: buildThresholdList(20), rootMargin: 0 + "px", root: null });
+
+    observer.observe(this.scrollSentinel);
+  }
+
   componentDidMount() {
     this.observeHeader()
     this.observeFooter()
+
+    if (this.props.progress) {
+      this.observeProgress();
+    }
   }
 
   render() {
     return (
-      <div style={containerStyle} {...this.props}>
-        <div style={topDetectorStyle} ref={el => this.topDetector = el} />
+      <div className={styles.container} {...this.props}>
+        <div className={styles.topDetector} ref={el => this.topDetector = el} />
+
+        {this.props.progress && (
+          <div className={styles.scrollSentinel} ref={el => this.scrollSentinel = el} />
+        )}
 
         {this.props.children}
 
-        <div style={bottomDetectorStyle} ref={el => this.bottomDetector = el} />
+        <div className={styles.bottomDetector} ref={el => this.bottomDetector = el} />
       </div>
     )
   }
